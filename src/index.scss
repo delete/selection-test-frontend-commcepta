@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  background-color: #d9d9d9;
+}
+
+:root {
+  --container-width: 1410px;
+  --container-margin: 0 auto;
+
+  --white: #fff;
+  --light-blue: rgba(77, 210, 210, 1);
+  --dark-blue: rgba(9, 35, 49, 1);
+
+  --background-gradient: linear-gradient(
+    90deg,
+    var(--light-blue) 0%,
+    var(--dark-blue) 100%
+  );
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: var(--container-margin);
+}
