@@ -29,6 +29,10 @@ templateCards.innerHTML = `
             text-decoration: none;
         }
 
+        .links a:focus {
+            color: var(--light-blue);
+        }
+
         .links > li {
             cursor: pointer;
             margin-bottom: 30px;

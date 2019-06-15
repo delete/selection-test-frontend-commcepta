@@ -63,7 +63,7 @@ templateCards.innerHTML = `
             transition: color .5s;
         }
     </style>
-    <li class="card" aria-selected="false">
+    <li class="card" aria-selected="false" tabindex="0">
         <div class="card__avatar" data-number="0">
         </div>
         <div>
