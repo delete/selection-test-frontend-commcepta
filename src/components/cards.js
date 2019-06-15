@@ -31,6 +31,7 @@ templateCards.innerHTML = `
             margin: var(--container-margin);
             margin-top: var(--gap);
             padding: 0;
+            padding-bottom: 30px;
           }
         }
     </style>
