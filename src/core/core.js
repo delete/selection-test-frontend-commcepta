@@ -8,6 +8,18 @@ import { MenuButton } from "../components/menu-button";
 
 const components = [
   {
+    tagName: "c-card",
+    component: Card
+  },
+  {
+    tagName: "c-cards",
+    component: Cards
+  },
+  {
+    tagName: "c-avatar",
+    component: Avatar
+  },
+  {
     tagName: "c-header",
     component: Header
   },
