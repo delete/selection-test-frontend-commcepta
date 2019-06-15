@@ -5,6 +5,7 @@ import { Header } from "../components/header";
 import { Nav } from "../components/nav";
 import { Menu } from "../components/menu";
 import { MenuButton } from "../components/menu-button";
+import { CardPreview } from "../components/card-preview";
 
 const components = [
   {
@@ -34,6 +35,10 @@ const components = [
   {
     tagName: "c-menu-button",
     component: MenuButton
+  },
+  {
+    tagName: "c-card-preview",
+    component: CardPreview
   }
 ];
 

@@ -5,7 +5,6 @@ templateCards.innerHTML = `
             align-items: center;
             background-color: #F0F1EF;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
             display: flex;
             font-family: Arial;
             height: 200px;
@@ -14,74 +13,55 @@ templateCards.innerHTML = `
             transition: background .3s;
         }
 
-        .card:hover,
-        .card:focus,
-        .card[aria-selected="true"] {
-            background-color: #002B50;
-        }
-
-        .card:hover .card__title,
-        .card:hover .card__subtitle,
-        .card:focus .card__title,
-        .card:focus .card__subtitle,
-        .card[aria-selected="true"] .card__title,
-        .card[aria-selected="true"] .card__subtitle {
-            color: var(--white);
-        }
-
         .card__avatar {
             position: relative;
-            margin-right: 20px;
+            margin-right: 30px;
         }
 
-        .card__avatar::before {
-            align-items: center;
-            background-color: #4DD2D2;
-            border-radius: 50%;
-            content: attr(data-number);
-            display: flex;
-            font-size: 24px;
-            justify-content: center;
-            height: 40px;
-            position:absolute;
-            padding: 3px;
-            right: -6px;
-            top: -6px;
-            width: 40px;
-            z-index: 1;
-            opacity: 1;
+        dl {
+          display: flex;
         }
 
-        .card__avatar[data-number]  .card__avatar::before {
-          opacity: 1;
+        dt {
+          display: block;
+          font-size: 20px;
+          text-transform: uppercase;
+          color: #707070;
+          margin-bottom: 17px;
+          margin-right: 16px;
+          text-align: right;
         }
 
-        .card__title {
-            color: #092432;
-            display: block;
-            font-size: 24px;
-            transition: color .5s;
+        dd {
+          color: #092432;
+          display: block;
+          font-size: 24px;
+          margin: 0;
+          margin-bottom: 10px;
         }
 
-        .card__subtitle {
-            color: #707070;
-            display: block;
-            font-size: 20px;
-            transition: color .5s;
-        }
     </style>
     <li class="card" aria-selected="false" tabindex="0">
         <div class="card__avatar">
           <c-avatar></c-avatar>
         </div>
-        <div>
-            <span class="card__title"></span>
-            <span class="card__subtitle"></span>
-        </div>
+
+        <dl>
+          <div>
+            <dt>Nome:</dt>
+            <dt>Cargo:</dt>
+            <dt>Idade:</dt>
+            </div>
+          <div>
+            <dd class="card__title"></dd>
+            <dd class="card__subtitle"></dd>
+            <dd class="card__info"></dd>
+          </div>
+        </dl>
     </li>
 `;
 
-export class Card extends HTMLElement {
+export class CardPreview extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -90,7 +70,6 @@ export class Card extends HTMLElement {
     this._subtitle = null;
     this._image = null;
     this._id = null;
-    this._ariaSelected = null;
     this._yearsold = null;
 
     this.$card = null;
@@ -98,8 +77,7 @@ export class Card extends HTMLElement {
     this.$avatar = null;
     this.$title = null;
     this.$subtitle = null;
-
-    this.handleOnClick = this.handleOnClick.bind(this);
+    this.info = null;
   }
 
   connectedCallback() {
@@ -109,15 +87,7 @@ export class Card extends HTMLElement {
     this.$avatar = this.shadowRoot.querySelector("c-avatar");
     this.$title = this.shadowRoot.querySelector(".card__title");
     this.$subtitle = this.shadowRoot.querySelector(".card__subtitle");
-
-    this.addEventListener("click", this.handleOnClick);
-
-    if (this.hasAttribute("aria-selected")) {
-      this.$card.setAttribute(
-        "aria-selected",
-        this.getAttribute("aria-selected")
-      );
-    }
+    this.info = this.shadowRoot.querySelector(".card__info");
 
     this.updateCard();
   }
@@ -130,16 +100,10 @@ export class Card extends HTMLElement {
     if (this.$title) {
       this.$title.innerHTML = this._title;
       this.$subtitle.innerHTML = this._subtitle;
+      this.info.innerHTML = this._yearsold;
       this.$avatar.setAttribute("src", this._image);
       this._id && this.$cardAvatar.setAttribute("data-number", this._id);
     }
-  }
-
-  handleOnClick(e) {
-    e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent("onSelectCard", { detail: this.id, composed: true })
-    );
   }
 
   static get observedAttributes() {
@@ -148,10 +112,6 @@ export class Card extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
-      case "aria-selected":
-        if (this.$card) this.$card.setAttribute("aria-selected", newValue);
-        break;
-
       case "title":
         this._title = newValue;
         break;

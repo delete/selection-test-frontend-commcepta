@@ -35,7 +35,7 @@ templateCards.innerHTML = `
         }
     </style>
     <section class="container">
-      <c-card class="js-card-info"></c-card>
+      <c-card-preview class="js-card-info"></c-card-preview>
       <ul role="listbox" tabindex="0" class="cards"></ul>
     </section>
 `;
@@ -53,10 +53,10 @@ export class Cards extends HTMLElement {
 
   selectCard(e) {
     const cardId = e.detail;
-    this.chandeCardSelectState(`${cardId}`, true);
+    this.changeCardSelectState(`${cardId}`, true);
 
     this._previousSelectedCard &&
-      this.chandeCardSelectState(this._previousSelectedCard, false);
+      this.changeCardSelectState(this._previousSelectedCard, false);
 
     this._previousSelectedCard = cardId;
     this.showCardInfo(e.target);
@@ -68,9 +68,10 @@ export class Cards extends HTMLElement {
     this.$cardInfo.setAttribute("title", card.getAttribute("title"));
     this.$cardInfo.setAttribute("subtitle", card.getAttribute("subtitle"));
     this.$cardInfo.setAttribute("image", card.getAttribute("image"));
+    this.$cardInfo.setAttribute("yearsold", card.getAttribute("yearsold"));
   }
 
-  chandeCardSelectState(id, state) {
+  changeCardSelectState(id, state) {
     this.$card = this.shadowRoot.getElementById(id);
     this.$card.setAttribute("aria-selected", state);
   }
@@ -94,6 +95,7 @@ export class Cards extends HTMLElement {
       $item.setAttribute("id", item.id);
       $item.setAttribute("title", item.nome);
       $item.setAttribute("subtitle", item.cargo);
+      $item.setAttribute("yearsold", item.idade);
       $item.setAttribute("image", require(`../assets/img/${item.foto}`));
       $item.addEventListener("onSelectCard", this.selectCard);
 
