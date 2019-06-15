@@ -11,7 +11,7 @@ templateCards.innerHTML = `
             height: 200px;
             max-width: 100%;
             padding: 30px 32px;
-            transition: background .3s;
+            transition: background .3s;;
         }
 
         .card:hover,
@@ -49,24 +49,19 @@ templateCards.innerHTML = `
             top: -6px;
             width: 40px;
             z-index: 1;
-            opacity: 1;
-        }
-
-        .card__avatar[data-number]  .card__avatar::before {
-          opacity: 1;
         }
 
         .card__title {
             color: #092432;
             display: block;
-            font-size: 24px;
+            font-size: 1.4rem;
             transition: color .5s;
         }
 
         .card__subtitle {
             color: #707070;
             display: block;
-            font-size: 20px;
+            font-size: 1rem;
             transition: color .5s;
         }
     </style>

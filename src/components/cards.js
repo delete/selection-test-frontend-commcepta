@@ -9,7 +9,7 @@ templateCards.innerHTML = `
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(386px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(318px, 1fr));
             grid-gap: var(--gap);
             margin: 0;
             padding: 0;
@@ -23,6 +23,11 @@ templateCards.innerHTML = `
         .container {
           margin-top: var(--gap);
           padding: var(--gap);
+        }
+
+        @media screen and (min-width: 768px) {
+          .cards {
+            grid-template-columns: repeat(auto-fill, minmax(386px, 1fr));
         }
 
         @media screen and (min-width: 1440px) {

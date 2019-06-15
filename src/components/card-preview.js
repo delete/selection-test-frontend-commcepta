@@ -7,10 +7,11 @@ templateCards.innerHTML = `
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             display: flex;
             font-family: Arial;
-            height: 200px;
+            height: auto;
             max-width: 100%;
             padding: 30px 32px;
             transition: background .3s;
+            flex-wrap: wrap;
         }
 
         .card__avatar {
@@ -39,6 +40,13 @@ templateCards.innerHTML = `
           margin: 0;
           margin-bottom: 10px;
         }
+
+        @media screen and (max-width: 768px) {
+          .card {
+            justify-content: center;
+          }
+        }
+
 
     </style>
     <li class="card" aria-selected="false" tabindex="0">
