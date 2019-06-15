@@ -22,6 +22,8 @@ templateCards.innerHTML = `
 
         .card:hover .card__title,
         .card:hover .card__subtitle,
+        .card:focus .card__title,
+        .card:focus .card__subtitle,
         .card[aria-selected="true"] .card__title,
         .card[aria-selected="true"] .card__subtitle {
             color: var(--white);
