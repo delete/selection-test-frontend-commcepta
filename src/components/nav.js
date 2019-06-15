@@ -7,6 +7,7 @@ templateCards.innerHTML = `
             align-items: center;
             display: flex;
             height: 100%;
+            justify-content: space-between;
             padding: 0 30px;
         }
 
@@ -29,6 +30,7 @@ templateCards.innerHTML = `
     </style>
     <nav class="nav">
         <img class="nav__logo" src="${spaceBoxImg}">
+        <c-menu></c-menu>
     </nav>
 `;
 

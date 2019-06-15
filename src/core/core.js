@@ -18,6 +18,10 @@ const components = [
   {
     tagName: "c-menu",
     component: Menu
+  },
+  {
+    tagName: "c-menu-button",
+    component: MenuButton
   }
 ];
 
