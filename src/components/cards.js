@@ -47,6 +47,8 @@ export class Cards extends HTMLElement {
 
     this._list = data;
     this._previousSelectedCard = null;
+
+    this.selectCard = this.selectCard.bind(this);
   }
 
   selectCard(e) {
@@ -80,6 +82,12 @@ export class Cards extends HTMLElement {
     this.render();
   }
 
+  disconnectedCallback() {
+    this.shadowRoot.querySelector("c-card").forEach(card => {
+      card.removeEventListener("click", this.selectCard);
+    });
+  }
+
   render() {
     this._list.forEach((item, index) => {
       let $item = document.createElement("c-card");
@@ -87,7 +95,7 @@ export class Cards extends HTMLElement {
       $item.setAttribute("title", item.nome);
       $item.setAttribute("subtitle", item.cargo);
       $item.setAttribute("image", require(`../assets/img/${item.foto}`));
-      $item.addEventListener("onSelectCard", this.selectCard.bind(this));
+      $item.addEventListener("onSelectCard", this.selectCard);
 
       // Set a default selected card, to fill the main detail card
       if (index === 0) {

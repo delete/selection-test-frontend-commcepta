@@ -121,6 +121,10 @@ export class Card extends HTMLElement {
     this.updateCard();
   }
 
+  disconnectedCallback() {
+    this.removeEventListener("click", this.handleOnClick);
+  }
+
   updateCard() {
     if (this.$title) {
       this.$title.innerHTML = this._title;

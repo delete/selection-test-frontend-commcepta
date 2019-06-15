@@ -63,7 +63,11 @@ export class MenuButton extends HTMLElement {
     this.shadowRoot.appendChild(templateCards.content.cloneNode(true));
 
     this.setAttribute("role", "button");
-    this.addEventListener("click", e => this.toggleMenu());
+    this.addEventListener("click", this.toggleMenu);
+  }
+
+  disconnectedCallback() {
+    this.removeEventListener("click", this.toggleMenu);
   }
 
   toggleMenu() {
