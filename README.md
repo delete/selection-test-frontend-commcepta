@@ -24,6 +24,10 @@ O QUE SERÁ ANALISADO ?
 PRAZO
 O prazo de entrega é de 2 dias, a partir da data do recebimento destas instruções.
 
+# Informações
+
+Projeto feito com Web Components native, usando babel basicamente para resolver esmodules.
+
 # Usando
 
 ## Instalação dos pacotes
