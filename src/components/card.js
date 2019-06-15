@@ -11,7 +11,7 @@ templateCards.innerHTML = `
             height: 200px;
             max-width: 100%;
             padding: 30px 32px;
-            transition: background .5s;
+            transition: background .3s;
         }
 
         .card:hover,
@@ -49,6 +49,11 @@ templateCards.innerHTML = `
             top: -6px;
             width: 40px;
             z-index: 1;
+            opacity: 1;
+        }
+
+        .card__avatar[data-number]  .card__avatar::before {
+          opacity: 1;
         }
 
         .card__title {
@@ -66,7 +71,8 @@ templateCards.innerHTML = `
         }
     </style>
     <li class="card" aria-selected="false" tabindex="0">
-        <div class="card__avatar" data-number="0">
+        <div class="card__avatar">
+          <c-avatar></c-avatar>
         </div>
         <div>
             <span class="card__title"></span>
@@ -79,6 +85,20 @@ export class Card extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
+
+    this._title = null;
+    this._subtitle = null;
+    this._image = null;
+    this._id = null;
+    this._ariaSelected = null;
+
+    this.$card = null;
+    this.$cardAvatar = null;
+    this.$avatar = null;
+    this.$title = null;
+    this.$subtitle = null;
+
+    this.handleOnClick = this.handleOnClick.bind(this);
   }
 
   connectedCallback() {
@@ -89,37 +109,61 @@ export class Card extends HTMLElement {
     this.$title = this.shadowRoot.querySelector(".card__title");
     this.$subtitle = this.shadowRoot.querySelector(".card__subtitle");
 
-    this.addAvatar();
-    this.$title.innerHTML = this.title;
-    this.$subtitle.innerHTML = this.subtitle;
-    this.$cardAvatar.setAttribute("data-number", this.id);
+    this.addEventListener("click", this.handleOnClick);
 
-    this.$card.addEventListener("click", e => {
-      e.preventDefault();
-      this.dispatchEvent(new CustomEvent("onSelectCard", { detail: this.id }));
-    });
+    if (this.hasAttribute("aria-selected")) {
+      this.$card.setAttribute(
+        "aria-selected",
+        this.getAttribute("aria-selected")
+      );
+    }
 
-    if (!this.hasAttribute("aria-selected")) {
-      this.setAttribute("aria-selected", "false");
+    this.updateCard();
+  }
+
+  updateCard() {
+    if (this.$title) {
+      this.$title.innerHTML = this._title;
+      this.$subtitle.innerHTML = this._subtitle;
+      this.$avatar.setAttribute("src", this._image);
+      this._id && this.$cardAvatar.setAttribute("data-number", this._id);
     }
   }
 
+  handleOnClick(e) {
+    e.preventDefault();
+    this.dispatchEvent(
+      new CustomEvent("onSelectCard", { detail: this.id, composed: true })
+    );
+  }
+
   static get observedAttributes() {
-    return ["aria-selected"];
+    return ["aria-selected", "title", "subtitle", "image", "id"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
       case "aria-selected":
-        this.$card.setAttribute("aria-selected", newValue);
-    }
-  }
+        if (this.$card) this.$card.setAttribute("aria-selected", newValue);
+        break;
 
-  addAvatar() {
-    const templateCards = document.createElement("template");
-    templateCards.innerHTML = `
-        <c-avatar src="${this.imgUrl}"></c-avatar>
-    `;
-    this.$cardAvatar.appendChild(templateCards.content.cloneNode(true));
+      case "title":
+        this._title = newValue;
+        break;
+
+      case "subtitle":
+        this._subtitle = newValue;
+        break;
+
+      case "id":
+        this._id = newValue;
+        break;
+
+      case "image":
+        this._image = newValue;
+        break;
+    }
+
+    this.updateCard();
   }
 }

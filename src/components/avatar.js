@@ -8,7 +8,7 @@ templateCards.innerHTML = `
       width: 140px;
     }
   </style>
-  <img class="avatar"/>
+  <img class="avatar" src=""/>
 `;
 
 export class Avatar extends HTMLElement {
@@ -16,20 +16,34 @@ export class Avatar extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
 
-    this._src = this.src;
+    this._src = null;
+    this.$avatar = null;
   }
 
   connectedCallback() {
     this.shadowRoot.appendChild(templateCards.content.cloneNode(true));
     this.$avatar = this.shadowRoot.querySelector(".avatar");
 
-    this.$avatar.setAttribute("src", this._src);
+    this.updateAvatar();
   }
 
   static get observedAttributes() {
     return ["src"];
   }
+
   attributeChangedCallback(name, oldValue, newValue) {
-    this._src = newValue;
+    switch (name) {
+      case "src":
+        this._src = newValue;
+        break;
+    }
+
+    this.updateAvatar();
+  }
+
+  updateAvatar() {
+    if (this.$avatar) {
+      this.$avatar.setAttribute("src", this._src);
+    }
   }
 }
